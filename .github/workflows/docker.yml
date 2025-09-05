@@ -46,10 +46,13 @@ jobs:
       working-directory: ./java-web-app
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: mvn sonar:sonar \
+      run: mvn clean verify sonar:sonar \
         -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
+        -Dsonar.organization=rukevweubioworo912 \
         -Dsonar.host.url=https://sonarcloud.io \
-        -Dsonar.login=$SONAR_TOKEN
+        -Dsonar.login=$SONAR_TOKEN \
+        -Dsonar.sources=src
+
 
     - name: Upload JAR artifact
       uses: actions/upload-artifact@v4
