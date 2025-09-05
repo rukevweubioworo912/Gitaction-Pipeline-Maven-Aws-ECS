@@ -1,0 +1,29 @@
+name: Java CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+    - name: Build with Maven
+      run: mvn clean install
+    - name: Run Tests
+      run: mvn test
+    - name: Run SonarQube Analysis
+      uses: sonarsource/sonarcloud-github-action@v2
+      with:
+        projectKey: 'demo-java-app'
+        organization: 'your-org'
+        token: ${{ secrets.SONAR_TOKEN }}
