@@ -8,6 +8,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "index.html"; // Spring Boot will serve static index.html
+        // redirect to index.html in static folder
+        return "redirect:/index.html";
     }
 }
