@@ -32,12 +32,15 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Build with Maven
+        working-directory: ./java-web-app
         run: mvn clean package
 
       - name: Run Tests
+        working-directory: ./java-web-app
         run: mvn test
 
       - name: SonarCloud Scan
+        working-directory: ./java-web-app
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn sonar:sonar \
@@ -46,6 +49,7 @@ jobs:
           -Dsonar.login=$SONAR_TOKEN
 
       - name: Upload JAR artifact
+        working-directory: ./java-web-app
         uses: actions/upload-artifact@v4
         with:
           name: java-web-app-jar
@@ -56,6 +60,7 @@ jobs:
         run: docker build -t ${{ env.ECR_REPOSITORY_URI }}:latest .
 
       - name: Scan Docker image with Trivy
+        working-directory: ./java-web-app
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ env.ECR_REPOSITORY_URI }}:latest
@@ -64,6 +69,7 @@ jobs:
           exit-code: 1
 
       - name: Upload Trivy Scan Report
+        working-directory: ./java-web-app
         uses: actions/upload-artifact@v4
         with:
           name: trivy-report
