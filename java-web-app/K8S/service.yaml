@@ -11,6 +11,6 @@ spec:
   selector:
     app: my-app
   ports:
-    - port: 3000
-      targetPort: 3000
+    - port: 8080
+      targetPort: 8080
       nodePort: 30080   
